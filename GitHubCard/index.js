@@ -2,20 +2,23 @@
            (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios
-  .get("https://api.github.com/users/stlachman")
-  .then(function(response) {
-    // handle success
-    let cards = document.querySelector(".cards");
-    cards.appendChild(githubProfile(response.data));
-  })
-  .catch(function(error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function() {
-    // always executed
-  });
+
+function requestData(user) {
+  axios
+    .get(`https://api.github.com/users/${user}`)
+    .then(function(response) {
+      // handle success
+      let cards = document.querySelector(".cards");
+      cards.appendChild(githubProfile(response.data));
+    })
+    .catch(function(error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function() {
+      // always executed
+    });
+}
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -38,7 +41,18 @@ axios
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "stlachman",
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
+
+for (let i = 0; i < followersArray.length; i++) {
+  requestData(followersArray[i]);
+}
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -69,7 +83,6 @@ const followersArray = [];
 */
 
 function githubProfile(profile) {
-  console.log(profile);
   const card = document.createElement("div");
   card.className = "card";
   const userImg = document.createElement("img");
@@ -119,5 +132,3 @@ function githubProfile(profile) {
 
   return card;
 }
-
-// card.appendChild(githubProfile());
