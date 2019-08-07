@@ -1,7 +1,21 @@
 /* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
+           (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios
+  .get("https://api.github.com/users/stlachman")
+  .then(function(response) {
+    // handle success
+    let cards = document.querySelector(".cards");
+    cards.appendChild(githubProfile(response.data));
+  })
+  .catch(function(error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function() {
+    // always executed
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -53,3 +67,57 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+function githubProfile(profile) {
+  console.log(profile);
+  const card = document.createElement("div");
+  card.className = "card";
+  const userImg = document.createElement("img");
+  userImg.src = profile.avatar_url;
+  card.appendChild(userImg);
+  const cardInfo = document.createElement("div");
+  cardInfo.className = "card-info";
+  card.append(cardInfo);
+
+  const name = document.createElement("h3");
+  name.className = "name";
+  name.textContent = profile.name;
+  cardInfo.appendChild(name);
+
+  const username = document.createElement("p");
+  username.className = "username";
+  username.textContent = profile.login;
+
+  cardInfo.appendChild(username);
+
+  const location = document.createElement("p");
+  location.textContent = profile.location;
+
+  cardInfo.appendChild(location);
+
+  const profileArea = document.createElement("p");
+  profileArea.textContent = "Profile: ";
+
+  cardInfo.appendChild(profileArea);
+
+  const profileLink = document.createElement("a");
+  profileLink.href = profile.html_url;
+  profileLink.textContent = profile.html_url;
+
+  profileArea.appendChild(profileLink);
+
+  const followers = document.createElement("p");
+  followers.textContent = `Followers: ${profile.followers}`;
+  cardInfo.appendChild(followers);
+
+  const following = document.createElement("p");
+  following.textContent = `Following: ${profile.following}`;
+  cardInfo.appendChild(following);
+
+  const bio = document.createElement("p");
+  bio.textContent = `Bio: ${profile.bio}`;
+
+  return card;
+}
+
+// card.appendChild(githubProfile());
